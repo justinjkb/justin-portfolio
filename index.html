@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Justin Jacob — Engineer, figuring out life in Australia</title>
+<meta name="description" content="Justin Jacob — civil engineer turned project delivery professional in Australia, sharing tools and ideas for financial freedom and everyday life.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-deep:#0F2A43;
+    --navy-mid:#173C5C;
+    --paper:#F3EFE3;
+    --paper-white:#FBFAF6;
+    --brass:#C89B3C;
+    --ink:#1A1A1A;
+    --line-on-navy:rgba(243,239,227,0.22);
+    --line-on-navy-strong:rgba(243,239,227,0.4);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;letter-spacing:-0.01em;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+  }
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+
+  /* ---------- Corner registration marks (signature element) ---------- */
+  .crop-frame{position:relative;}
+  .crop-frame::before,.crop-frame::after,
+  .crop-frame .cm-tl,.crop-frame .cm-br{
+    content:"";position:absolute;width:18px;height:18px;
+    border-color:var(--brass);
+    z-index:2;
+  }
+  .crop-frame::before{top:-1px;left:-1px;border-top:2px solid var(--brass);border-left:2px solid var(--brass);}
+  .crop-frame::after{bottom:-1px;right:-1px;border-bottom:2px solid var(--brass);border-right:2px solid var(--brass);}
+  .crop-frame .cm-tl{top:-1px;right:-1px;border-top:2px solid var(--brass);border-right:2px solid var(--brass);}
+  .crop-frame .cm-br{bottom:-1px;left:-1px;border-bottom:2px solid var(--brass);border-left:2px solid var(--brass);}
+
+  /* ---------- Nav ---------- */
+  .nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:20px 6vw;
+    background:rgba(15,42,67,0.0);
+    transition:background 0.3s ease, padding 0.3s ease;
+  }
+  .nav.scrolled{background:rgba(15,42,67,0.92);backdrop-filter:blur(6px);padding:14px 6vw;}
+  .nav-logo{font-family:'IBM Plex Mono',monospace;color:var(--paper-white);font-size:0.85rem;letter-spacing:0.08em;}
+  .nav-links{display:flex;gap:32px;list-style:none;}
+  .nav-links a{
+    color:var(--paper-white);text-decoration:none;font-family:'IBM Plex Mono',monospace;
+    font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;opacity:0.85;
+    border-bottom:1px solid transparent;padding-bottom:2px;transition:border-color 0.2s ease, opacity 0.2s ease;
+  }
+  .nav-links a:hover{opacity:1;border-color:var(--brass);}
+  .nav-cta{
+    font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.08em;
+    color:var(--navy-deep);background:var(--brass);padding:8px 16px;text-decoration:none;
+    text-transform:uppercase;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    background:var(--navy-deep);
+    color:var(--paper-white);
+    display:flex;align-items:center;
+    padding:140px 6vw 80px;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;
+    background-image:
+      linear-gradient(var(--line-on-navy) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-on-navy) 1px, transparent 1px);
+    background-size:48px 48px;
+    mask-image:radial-gradient(ellipse 80% 60% at 30% 40%, black 40%, transparent 90%);
+    opacity:0.6;
+  }
+  .hero-grid{
+    position:relative;z-index:1;
+    display:grid;grid-template-columns:1.15fr 0.85fr;gap:6vw;
+    align-items:center;width:100%;max-width:1240px;margin:0 auto;
+  }
+  .hero-eyebrow{color:var(--brass);margin-bottom:22px;display:flex;align-items:center;gap:10px;}
+  .hero-eyebrow::before{content:"";width:28px;height:1px;background:var(--brass);}
+  .hero h1{font-size:clamp(2.4rem,5vw,4rem);line-height:1.08;margin-bottom:26px;}
+  .hero h1 .script{font-weight:400;font-style:italic;color:var(--brass);}
+  .hero p.lede{font-size:1.15rem;max-width:46ch;color:rgba(251,250,246,0.82);margin-bottom:36px;}
+  .hero-actions{display:flex;gap:18px;flex-wrap:wrap;}
+  .btn{
+    font-family:'IBM Plex Mono',monospace;font-size:0.78rem;letter-spacing:0.06em;
+    text-decoration:none;padding:14px 26px;text-transform:uppercase;display:inline-block;
+    transition:transform 0.15s ease, background 0.15s ease;
+  }
+  .btn-primary{background:var(--brass);color:var(--navy-deep);}
+  .btn-primary:hover{transform:translateY(-2px);}
+  .btn-ghost{border:1px solid var(--line-on-navy-strong);color:var(--paper-white);}
+  .btn-ghost:hover{border-color:var(--brass);color:var(--brass);}
+
+  .hero-photo-wrap{position:relative;}
+  .hero-photo{
+    aspect-ratio:4/5;overflow:hidden;position:relative;
+  }
+  .hero-photo img{width:100%;height:100%;object-fit:cover;filter:saturate(0.92) contrast(1.03);}
+  .hero-photo-tag{
+    position:absolute;bottom:14px;left:14px;
+    font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;
+    color:var(--paper-white);background:rgba(15,42,67,0.65);padding:5px 10px;
+    z-index:3;
+  }
+
+  /* ---------- Section shell ---------- */
+  section{padding:110px 6vw;}
+  .section-inner{max-width:1120px;margin:0 auto;}
+  .section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;margin-bottom:56px;flex-wrap:wrap;}
+  .section-head .eyebrow{color:var(--brass);margin-bottom:14px;display:block;}
+  .section-head h2{font-size:clamp(1.7rem,3vw,2.4rem);}
+  .dim-line{flex:1;min-width:80px;height:1px;background:repeating-linear-gradient(90deg,#B8AE95 0,#B8AE95 6px,transparent 6px,transparent 12px);margin-bottom:8px;}
+
+  /* ---------- About ---------- */
+  .about{background:var(--paper);}
+  .about-grid{display:grid;grid-template-columns:1.3fr 0.9fr;gap:64px;align-items:start;}
+  .about p{max-width:62ch;color:#3a352b;margin-bottom:18px;font-size:1.02rem;}
+  .about p:first-of-type{font-size:1.18rem;color:var(--ink);}
+  .stat-list{display:flex;flex-direction:column;gap:26px;border-left:1px solid #C9C0A8;padding-left:28px;}
+  .stat{position:relative;}
+  .stat::before{content:"";position:absolute;left:-33px;top:6px;width:9px;height:9px;background:var(--brass);border-radius:50%;}
+  .stat .num{font-family:'Fraunces',serif;font-size:1.9rem;font-weight:600;color:var(--navy-deep);display:block;}
+  .stat .label{font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.06em;text-transform:uppercase;color:#6b6350;}
+
+  /* ---------- Help cards ---------- */
+  .help{background:var(--navy-deep);color:var(--paper-white);}
+  .help .section-head h2{color:var(--paper-white);}
+  .help .dim-line{background:repeating-linear-gradient(90deg,rgba(243,239,227,0.35) 0,rgba(243,239,227,0.35) 6px,transparent 6px,transparent 12px);}
+  .card-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line-on-navy);border:1px solid var(--line-on-navy);}
+  .card{background:var(--navy-deep);padding:34px 26px;position:relative;transition:background 0.2s ease;}
+  .card:hover{background:var(--navy-mid);}
+  .card .idx{font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--brass);display:block;margin-bottom:18px;}
+  .card h3{font-size:1.1rem;color:var(--paper-white);margin-bottom:12px;font-weight:600;}
+  .card p{font-size:0.9rem;color:rgba(251,250,246,0.72);}
+
+  /* ---------- Timeline ---------- */
+  .timeline{background:var(--paper);}
+  .tl{position:relative;padding-left:36px;border-left:1px solid #C9C0A8;display:flex;flex-direction:column;gap:44px;}
+  .tl-item{position:relative;}
+  .tl-item::before{
+    content:attr(data-year);
+    position:absolute;left:-36px;top:0;transform:translateX(-100%);
+    font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--navy-deep);
+    width:70px;text-align:right;padding-right:14px;
+  }
+  .tl-item::after{content:"";position:absolute;left:-41px;top:4px;width:9px;height:9px;background:var(--navy-deep);border-radius:50%;}
+  .tl-item h3{font-size:1.2rem;margin-bottom:6px;}
+  .tl-item .role-meta{font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.05em;color:var(--brass);text-transform:uppercase;margin-bottom:10px;display:block;}
+  .tl-item p{max-width:58ch;color:#3a352b;font-size:0.96rem;}
+
+  /* ---------- Skills ---------- */
+  .skills{background:var(--paper-white);border-top:1px solid #E2DCC9;border-bottom:1px solid #E2DCC9;}
+  .tag-row{display:flex;flex-wrap:wrap;gap:12px;}
+  .tag{
+    font-family:'IBM Plex Mono',monospace;font-size:0.75rem;letter-spacing:0.03em;
+    padding:9px 16px;border:1px solid #C9C0A8;color:var(--navy-deep);
+  }
+
+  /* ---------- Personal / hobbies ---------- */
+  .personal{background:var(--paper);}
+  .personal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+  .hobby{border:1px solid #C9C0A8;padding:28px;background:var(--paper-white);}
+  .hobby .eyebrow{color:var(--brass);margin-bottom:10px;}
+  .hobby h3{font-size:1.1rem;margin-bottom:8px;}
+  .hobby p{font-size:0.92rem;color:#3a352b;}
+
+  /* ---------- Contact / footer ---------- */
+  .contact{background:var(--navy-deep);color:var(--paper-white);position:relative;overflow:hidden;}
+  .contact::before{
+    content:"";position:absolute;inset:0;
+    background-image:linear-gradient(var(--line-on-navy) 1px, transparent 1px),linear-gradient(90deg, var(--line-on-navy) 1px, transparent 1px);
+    background-size:48px 48px;opacity:0.35;
+  }
+  .contact-inner{position:relative;z-index:1;max-width:1120px;margin:0 auto;text-align:left;}
+  .contact h2{font-size:clamp(2rem,4.5vw,3.2rem);max-width:16ch;margin-bottom:28px;}
+  .contact-email{
+    font-family:'IBM Plex Mono',monospace;font-size:clamp(1.1rem,2.3vw,1.5rem);
+    color:var(--brass);text-decoration:none;border-bottom:1px solid var(--brass);padding-bottom:6px;
+  }
+  .footer-meta{
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+    margin-top:70px;padding-top:26px;border-top:1px solid var(--line-on-navy);
+    font-family:'IBM Plex Mono',monospace;font-size:0.68rem;letter-spacing:0.06em;
+    color:rgba(251,250,246,0.55);text-transform:uppercase;
+  }
+
+  @media (max-width:860px){
+    .hero-grid{grid-template-columns:1fr;}
+    .hero-photo-wrap{order:-1;max-width:280px;}
+    .about-grid{grid-template-columns:1fr;}
+    .card-grid{grid-template-columns:repeat(2,1fr);}
+    .personal-grid{grid-template-columns:1fr;}
+    .nav-links{display:none;}
+    .tl{padding-left:20px;}
+    .tl-item::before{position:static;display:block;transform:none;text-align:left;width:auto;padding:0 0 6px 0;}
+    .tl-item::after{left:-25px;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-logo">JJ // JUSTIN JACOB</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#help">What I Share</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a class="nav-cta" href="mailto:Justin.jkb@icloud.com">Say Hi</a>
+</nav>
+
+<header class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="eyebrow hero-eyebrow">Civil Engineer — Project Delivery — Melbourne, AU</div>
+      <h1>Hey, I'm Justin.<br>I'm an engineer <span class="script">figuring out life</span> in Australia.</h1>
+      <p class="lede">I build infrastructure for a living and I'm slowly building a life I'm proud of on the side — sharing the tools and ideas that actually worked along the way.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#help">What I Share</a>
+        <a class="btn btn-ghost" href="#contact">Get In Touch</a>
+      </div>
+    </div>
+    <div class="hero-photo-wrap crop-frame">
+      <span class="cm-tl"></span><span class="cm-br"></span>
+      <div class="hero-photo">
+        <img src="assets/justin.jpg" alt="Justin Jacob">
+      </div>
+      <div class="hero-photo-tag">FIG. 01 — MELBOURNE, 2026</div>
+    </div>
+  </div>
+</header>
+
+<section class="about" id="about">
+  <div class="section-inner about-grid">
+    <div>
+      <span class="eyebrow">About</span>
+      <h2 style="margin-bottom:26px;">From a shared room in Geelong to a 9-to-5 I'm still figuring out.</h2>
+      <p>I finished my civil engineering degree in India and moved to Australia in 2020 — landing in a shared room in Geelong with no real plan beyond "make it work."</p>
+      <p>Since then I've completed my Master's, worked as a project manager on infrastructure projects, and now sit inside a PMO office supporting programs with operating assets worth over $3.6 billion. It's been a genuinely wild ride.</p>
+      <p>Outside the 9-to-5, you'll find me behind a camera, on a motorbike, or in the kitchen — and increasingly, thinking about how to build financial freedom instead of just clocking in.</p>
+    </div>
+    <div class="stat-list">
+      <div class="stat"><span class="num">2020</span><span class="label">Landed in Australia</span></div>
+      <div class="stat"><span class="num">$3.6B+</span><span class="label">In assets supported</span></div>
+      <div class="stat"><span class="num">2</span><span class="label">Degrees, two countries</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="help" id="help">
+  <div class="section-inner">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">What I Share</span>
+        <h2>Ideas &amp; tools from my career, for your day to day.</h2>
+      </div>
+      <div class="dim-line"></div>
+    </div>
+    <div class="card-grid">
+      <div class="card">
+        <span class="idx">FIN</span>
+        <h3>Financial Freedom</h3>
+        <p>Practical thinking on saving, investing, and building freedom while working a full-time engineering job.</p>
+      </div>
+      <div class="card">
+        <span class="idx">PM</span>
+        <h3>Project &amp; Career Lessons</h3>
+        <p>What running infrastructure programs teaches you about managing your own career and priorities.</p>
+      </div>
+      <div class="card">
+        <span class="idx">AUS</span>
+        <h3>Life in Australia</h3>
+        <p>Honest notes on migrating, settling in, and building a life from scratch in a new country.</p>
+      </div>
+      <div class="card">
+        <span class="idx">LENS</span>
+        <h3>Behind the Lens</h3>
+        <p>Photography, motorbike rides, and cooking — the things that keep the rest of it worth it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="timeline" id="work">
+  <div class="section-inner">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Career So Far</span>
+        <h2>A rough timeline.</h2>
+      </div>
+      <div class="dim-line"></div>
+    </div>
+    <div class="tl">
+      <div class="tl-item" data-year="INDIA">
+        <span class="role-meta">Civil Engineering Degree</span>
+        <h3>Foundations</h3>
+        <p>Completed my civil engineering degree in India before making the move to Australia in 2020.</p>
+      </div>
+      <div class="tl-item" data-year="AU">
+        <span class="role-meta">Master's Degree</span>
+        <h3>Starting Over</h3>
+        <p>Rebuilt from a shared room in Geelong — completed my Master's while settling into a new country.</p>
+      </div>
+      <div class="tl-item" data-year="PM">
+        <span class="role-meta">Project Manager</span>
+        <h3>Infrastructure Projects</h3>
+        <p>Worked as a project manager delivering infrastructure projects, learning the realities of running large-scale work.</p>
+      </div>
+      <div class="tl-item" data-year="NOW">
+        <span class="role-meta">Current — PMO</span>
+        <h3>$3.6B+ Asset Portfolio</h3>
+        <p>Now supporting multiple programs inside a PMO office, working across operating assets worth over $3.6 billion.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="skills">
+  <div class="section-inner">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Toolkit</span>
+        <h2>Skills &amp; tools</h2>
+      </div>
+      <div class="dim-line"></div>
+    </div>
+    <div class="tag-row">
+      <span class="tag">Project Management</span>
+      <span class="tag">PMO &amp; Governance</span>
+      <span class="tag">Stakeholder Management</span>
+      <span class="tag">Risk &amp; Change Management</span>
+      <span class="tag">Primavera P6</span>
+      <span class="tag">MS Project</span>
+      <span class="tag">Power BI</span>
+      <span class="tag">Excel / Reporting</span>
+      <span class="tag">Asset Management</span>
+    </div>
+    <p style="margin-top:20px;font-size:0.85rem;color:#6b6350;">Placeholder list based on your role — tell me which of these to keep, drop, or add.</p>
+  </div>
+</section>
+
+<section class="personal">
+  <div class="section-inner">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Off the Clock</span>
+        <h2>What keeps me sane</h2>
+      </div>
+      <div class="dim-line"></div>
+    </div>
+    <div class="personal-grid">
+      <div class="hobby">
+        <span class="eyebrow">01</span>
+        <h3>Photography</h3>
+        <p>Mostly out and about around Melbourne — still learning, always shooting.</p>
+      </div>
+      <div class="hobby">
+        <span class="eyebrow">02</span>
+        <h3>Motorbike Rides</h3>
+        <p>The best thinking happens two wheels down, away from a screen.</p>
+      </div>
+      <div class="hobby">
+        <span class="eyebrow">03</span>
+        <h3>Cooking</h3>
+        <p>Equal parts stress relief and an excuse to feed people well.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <span class="eyebrow" style="color:var(--brass);">Get In Touch</span>
+    <h2>Got a question, a project, or just want to say hi?</h2>
+    <a class="contact-email" href="mailto:Justin.jkb@icloud.com">Justin.jkb@icloud.com</a>
+    <div class="footer-meta">
+      <span>© 2026 Justin Jacob</span>
+      <span>Melbourne, Australia</span>
+      <span>Scale 1:1 — Not For Construction</span>
+    </div>
+  </div>
+</section>
+
+<script>
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+  });
+</script>
+
+</body>
+</html>
